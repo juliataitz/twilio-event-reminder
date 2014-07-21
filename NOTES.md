@@ -17,3 +17,10 @@ For now there could be three different ways of figuring out why someone is impor
 - OAuth 2.0 (Facebook login)
 - Facebook API (determin important people)
 - Twilio API (send out sms reminders)
+
+#####More technical solutions for getting close friends through User attributes
+
+- User/{user-id}/significant-other
+- User/{user-id}/family 
+- User/{user-id}/friendlists
+- User/{user-id}/pokes

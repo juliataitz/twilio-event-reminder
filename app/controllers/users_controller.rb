@@ -8,7 +8,10 @@ class UsersController < ApplicationController
     #raise params.inspect
     @user = User.new(user_params)
     if @user.save
+      # notice "Thank you! You will receive an SMS shortly with verification instructions."
       render text: "Thank you! You will receive an SMS shortly with verification instructions."
+      # redirect_to '/users/new'
+      # create a link 
       
       # Instantiate a Twilio client
       client = Twilio::REST::Client.new(TWILIO_CONFIG['sid'], TWILIO_CONFIG['token'])
@@ -17,7 +20,7 @@ class UsersController < ApplicationController
       client.account.sms.messages.create(
         from: TWILIO_CONFIG['from'],
         to: @user.phone,
-        body: "Thanks for signing up. To verify your account, please reply HELLO to this message".size.to_s
+        body: "Thanks for signing up. To verify your account, please reply HELLO to this message"
       )
     else
       render :new

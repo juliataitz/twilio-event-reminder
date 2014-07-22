@@ -18,6 +18,10 @@ ActiveRecord::Schema.define(version: 20140717231113) do
     t.string   "email"
     t.string   "phone"
     t.boolean  "verified"
+    t.string   "uid"
+    t.string   "provider"
+    t.string   "oauth_token"
+    t.datetime "oauth_expires_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

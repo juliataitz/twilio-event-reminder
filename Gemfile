@@ -29,7 +29,11 @@ gem 'twilio-ruby'
 gem 'pry'
 
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
+gem 'figaro'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'koala'
 
 # Use unicorn as the app server
 # gem 'unicorn'

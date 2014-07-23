@@ -1,7 +1,8 @@
 class UsersController < ApplicationController
 
   def new
-    @user = User.new
+    @user = User.find_by(session[:user_id])
+    @user.facebook
   end
  
   def create
@@ -11,7 +12,9 @@ class UsersController < ApplicationController
       # notice "Thank you! You will receive an SMS shortly with verification instructions."
       render text: "Thank you! You will receive an SMS shortly with verification instructions."
       # redirect_to '/users/new'
-      # create a link 
+      # create a link
+      # @facebook ||= Koala::Facebook::API.new(user_params[:oauth_token])
+      # binding.pry
       
       # Instantiate a Twilio client
       client = Twilio::REST::Client.new(TWILIO_CONFIG['sid'], TWILIO_CONFIG['token'])
@@ -30,7 +33,7 @@ class UsersController < ApplicationController
   private
 
   def user_params
-    params.require(:user).permit(:name, :email, :phone)
+    params.require(:user).permit(:name, :email, :phone, :oauth_token)
   end
 
 end

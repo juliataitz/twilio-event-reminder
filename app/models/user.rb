@@ -13,10 +13,17 @@ class User < ActiveRecord::Base
       user.oauth_expires_at = Time.at(auth.credentials.expires_at)
       user.save!
     end
+
   end
 
   def facebook
     @facebook ||= Koala::Facebook::API.new(oauth_token)
+    binding.pry
+    @user_profile = @facebook.get_object("me")
+    @statuses = @facebook.get_connections(@user_profile["id"], "statuses")
+    # @facebook.get_connections(@user_profile["id"], "statuses")[0]["message"] gets first status
+    # @facebook.get_connections(@user_profile["id"], "statuses")[0]["updated_time"] gets time of first status
   end
+
 
 end

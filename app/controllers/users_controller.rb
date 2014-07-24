@@ -2,12 +2,17 @@ class UsersController < ApplicationController
 
   def new
     @user = User.find_by(session[:user_id])
+    # @user = User.new
     @user.facebook
   end
  
-  def create
+  def update
     #raise params.inspect
-    @user = User.new(user_params)
+    # @user = User.new(user_params)
+    @user = User.find_by(session[:user_id])
+    @user.phone = user_params[:phone]
+    @user.save
+    binding.pry
     if @user.save
       # notice "Thank you! You will receive an SMS shortly with verification instructions."
       render text: "Thank you! You will receive an SMS shortly with verification instructions."
@@ -23,7 +28,7 @@ class UsersController < ApplicationController
       client.account.sms.messages.create(
         from: TWILIO_CONFIG['from'],
         to: @user.phone,
-        body: "Thanks for signing up. To verify your account, please reply HELLO to this message"
+        body: "HEY #{@user.name}! YOU ARE AWESOME!"
       )
     else
       render :new

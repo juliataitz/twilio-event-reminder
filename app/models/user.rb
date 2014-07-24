@@ -15,12 +15,16 @@ class User < ActiveRecord::Base
     end
 
   end
-
+  
   def facebook
+    fb_statuses = []
     @facebook ||= Koala::Facebook::API.new(oauth_token)
-    binding.pry
     @user_profile = @facebook.get_object("me")
     @statuses = @facebook.get_connections(@user_profile["id"], "statuses")
+    # binding.pry
+    @statuses.each do |status|
+      fb_statuses << status["message"]
+    end
     # @facebook.get_connections(@user_profile["id"], "statuses")[0]["message"] gets first status
     # @facebook.get_connections(@user_profile["id"], "statuses")[0]["updated_time"] gets time of first status
   end

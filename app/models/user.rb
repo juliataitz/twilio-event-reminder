@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  has_many :messages
 
   attr_accessor :phone
 
@@ -15,7 +16,7 @@ class User < ActiveRecord::Base
     end
 
   end
-  
+
   def facebook
     fb_statuses = []
     @facebook ||= Koala::Facebook::API.new(oauth_token)

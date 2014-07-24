@@ -52,6 +52,7 @@ collect_content_for_scheduling()
   - store_todays_message() <- may not be necessary
   - create_message_hash()
     - select_shortest_message()
+    - select_most_liked_message()
 
 
 schedule_content()
@@ -77,9 +78,41 @@ If we'd truly select randomly, we'd definitely have to keep track in our databas
 
 
 
+METHODS THAT WE POTENTIALLY NEED FOR OUR AMAZING WEB APP
+
+- save_phone_num()
 
 
+User Model needs 
 
+- sign_ups (column that keeps track of how often someone has signed up for our service)
+
+
+Users:
+
+t.string   "email"
+t.string   "name"
+t.string   "phone"
+t.boolean  "verified"
+t.string   "uid"
+t.string   "provider"
+t.string   "oauth_token"
+t.datetime "oauth_expires_at"
+t.datetime "created_at"
+t.datetime "updated_at"
+
+
+what do we want to do with the users:
+
+remove email
+add t.integer "sign_ups"
+    add t.integer "plan" <- not going to be shipped with version 1
+
+
+Message:
+
+t.string "content"
+t.string
 
 
 

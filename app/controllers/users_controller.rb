@@ -4,6 +4,7 @@ class UsersController < ApplicationController
     @user = User.find_by(session[:user_id])
     # @user = User.new
     @user.facebook
+    #binding.pry
   end
  
   def update

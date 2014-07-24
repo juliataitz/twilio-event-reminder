@@ -18,16 +18,22 @@ class User < ActiveRecord::Base
   end
 
   def facebook
-    fb_statuses = []
+    # @user = User.find_by(session[:user_id])
+    @user = User.all.last
+    #fb_statuses = []
     @facebook ||= Koala::Facebook::API.new(oauth_token)
+    #binding.pry
     @user_profile = @facebook.get_object("me")
     @statuses = @facebook.get_connections(@user_profile["id"], "statuses")
-    # binding.pry
     @statuses.each do |status|
-      fb_statuses << status["message"]
+      # fb_statuses << status["message"]
+      @user.messages.each do |message|
+        message.content = status["message"]
+      end
+      #binding.pry
+      # @user.build_message(:content => status["message"] )
     end
-    # @facebook.get_connections(@user_profile["id"], "statuses")[0]["message"] gets first status
-    # @facebook.get_connections(@user_profile["id"], "statuses")[0]["updated_time"] gets time of first status
+    @user.save
   end
 
 

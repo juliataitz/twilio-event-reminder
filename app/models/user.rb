@@ -45,7 +45,11 @@ class User < ActiveRecord::Base
     index = Random.rand(1..fb_statuses.length)
     @today_status = fb_statuses[index]
     # @today_time = fb_times[index]
-    @today_status
+    if @today_status.length + 15 > 160
+      @today_status = @today_status[0..140] + "..."
+    else
+      @today_status
+    end
     # @today_time
     # binding.pry
   end

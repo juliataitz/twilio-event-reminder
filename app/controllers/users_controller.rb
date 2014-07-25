@@ -29,7 +29,7 @@ class UsersController < ApplicationController
       client.account.sms.messages.create(
         from: TWILIO_CONFIG['from'],
         to: @user.phone,
-        body: "#{@user.facebook}"#"HEY #{@user.name}! YOU ARE AWESOME!"
+        body: "You once said: #{@user.facebook}"#"HEY #{@user.name}! YOU ARE AWESOME!"
       )
     else
       render :new

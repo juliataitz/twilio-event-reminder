@@ -19,21 +19,35 @@ class User < ActiveRecord::Base
 
   def facebook
     # @user = User.find_by(session[:user_id])
-    @user = User.all.last
-    #fb_statuses = []
+    # @user = User.find_by(:id)
+    @user = User.all.first
+    fb_statuses = []
+    fb_times = []
     @facebook ||= Koala::Facebook::API.new(oauth_token)
     #binding.pry
     @user_profile = @facebook.get_object("me")
     @statuses = @facebook.get_connections(@user_profile["id"], "statuses")
     @statuses.each do |status|
-      # fb_statuses << status["message"]
-      @user.messages.each do |message|
-        message.content = status["message"]
-      end
-      #binding.pry
+      fb_statuses << status["message"]
+      fb_times << status["updated_time"]
+      # @user.messages.each do |message|
+      #   message.content = status["message"]
+      # end
+      # binding.pry
       # @user.build_message(:content => status["message"] )
     end
-    @user.save
+    # return today_status(fb_statuses, fb_times)
+    return today_status(fb_statuses)
+    # @user.save
+  end
+
+  def today_status(fb_statuses)
+    index = Random.rand(1..fb_statuses.length)
+    @today_status = fb_statuses[index]
+    # @today_time = fb_times[index]
+    @today_status
+    # @today_time
+    # binding.pry
   end
 
 

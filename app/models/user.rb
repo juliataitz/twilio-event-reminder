@@ -36,19 +36,6 @@ class User < ActiveRecord::Base
 
   end
 
-  def send_message
-    client = Twilio::REST::Client.new(TWILIO_CONFIG['sid'], TWILIO_CONFIG['token'])
-    client.account.messages.create(
-      from: TWILIO_CONFIG['from'],
-      to: phone,
-      body: message_content
-    )
-  end
-
-  def self.send_all_messages
-
-  end
-
   private
 
   def get_user_profile

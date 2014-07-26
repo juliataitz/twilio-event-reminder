@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
 
   end
 
+
   def message_content
     @user = get_user_profile
     @statuses = @facebook.get_connections(@user["id"], "statuses")
@@ -20,6 +21,19 @@ class User < ActiveRecord::Base
     @content = @todays_message["message"]
     @time = Date.parse(@todays_message['updated_time']).strftime('%m/%d/%Y') 
     return "#{@content} ##{@time}"
+  end
+
+  def send_message
+    client = Twilio::REST::Client.new(TWILIO_CONFIG['sid'], TWILIO_CONFIG['token'])
+    client.account.messages.create(
+      from: TWILIO_CONFIG['from'],
+      to: phone,
+      body: message_content
+    )
+  end
+
+  def self.send_all_messages
+
   end
 
   def send_message

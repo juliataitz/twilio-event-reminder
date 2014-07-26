@@ -13,7 +13,7 @@ class UsersController < ApplicationController
       render text: "Thank you! You will receive an SMS shortly with verification instructions."
       client = Twilio::REST::Client.new(TWILIO_CONFIG['sid'], TWILIO_CONFIG['token'])
       
-      client.account.sms.messages.create(
+      client.account.messages.create(
         from: TWILIO_CONFIG['from'],
         to: @user.phone,
         body: "#{@user.message_content}"

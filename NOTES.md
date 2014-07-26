@@ -91,6 +91,13 @@ User Model needs
 
 
 
+HOW TO PERSIST STUFF IN THE DATABASE
+
+"Hey this was an awesome year blabalbla #07/12/2012"
+
+- get 14 status updates from facebook that are under 160-date.length characters long
+- store them in the messages table
+- everyday, retrieve one and then delete it
 
 
 

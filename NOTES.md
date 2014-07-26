@@ -74,6 +74,8 @@ Maybe statuses and posts should be treated equal and just the amount of likes sh
 
 If we'd truly select randomly, we'd definitely have to keep track in our database of what has been sent to the user. But if we have a system that sorts all their posts/statuses instead, we can just assign another column in the user table that keeps track of how many messages have been sent to the user.
 
+At some point users should have the option to cancel their subscription. This will probably be the easiest if we just use Twilio and filter for replies like "unsubscribe"
+
 
 
 
@@ -86,33 +88,6 @@ METHODS THAT WE POTENTIALLY NEED FOR OUR AMAZING WEB APP
 User Model needs 
 
 - sign_ups (column that keeps track of how often someone has signed up for our service)
-
-
-Users:
-
-t.string   "email"
-t.string   "name"
-t.string   "phone"
-t.boolean  "verified"
-t.string   "uid"
-t.string   "provider"
-t.string   "oauth_token"
-t.datetime "oauth_expires_at"
-t.datetime "created_at"
-t.datetime "updated_at"
-
-
-what do we want to do with the users:
-
-remove email
-add t.integer "sign_ups"
-    add t.integer "plan" <- not going to be shipped with version 1
-
-
-Message:
-
-t.string "content"
-t.string
 
 
 

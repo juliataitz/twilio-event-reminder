@@ -22,19 +22,8 @@ class User < ActiveRecord::Base
     @statuses = @facebook.get_connections(@user_profile["id"], "statuses")
     @todays_message = @statuses.sample
     @content = @todays_message["message"]
-    # binding.pry
-    @time = Date.parse(@todays_message['updated_time'])
-    # if @content.length + 32 > 160
-    #   @content = "On #{@time}, you said: #{@content[0..120]}..."
-    # else
-    #   @content = "On #{@time}, you said: #{@content}"
-    # end
-    if @content.length < 160
-      message_content
-    else
-      binding.pry
-      @content = "On #{@time}, you said: #{@content}"
-    end
+    @time = Date.parse(@todays_message['updated_time']).strftime('%m/%d/%Y') 
+    return "#{@content} ##{@time}"
   end
 
   private

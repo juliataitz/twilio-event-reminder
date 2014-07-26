@@ -26,12 +26,7 @@ class User < ActiveRecord::Base
     @user_profile = @facebook.get_object("me")
     @statuses = @facebook.get_connections(@user_profile["id"], "statuses")
     @statuses.each do |status|
-      # fb_statuses << status["message"]
-      @user.messages.each do |message|
-        message.content = status["message"]
-      end
-      #binding.pry
-      # @user.build_message(:content => status["message"] )
+      @user.build_message(:content => status["message"] )
     end
     @user.save
   end

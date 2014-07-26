@@ -37,6 +37,7 @@ gem 'koala'
 gem 'twitter-bootstrap-rails'
 gem "therubyracer"
 gem "less-rails"
+gem 'whenever'
 
 # Use unicorn as the app server
 # gem 'unicorn'

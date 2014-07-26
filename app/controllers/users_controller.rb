@@ -24,7 +24,8 @@ class UsersController < ApplicationController
       client.account.sms.messages.create(
         from: TWILIO_CONFIG['from'],
         to: @user.phone,
-        body: "On #{@user.today_time}, you said: #{@user.today_message}"#"HEY #{@user.name}! YOU ARE AWESOME!"
+        # body: "On #{@user.today_time}, you said: #{@user.today_message}"#"HEY #{@user.name}! YOU ARE AWESOME!"
+        body: "#{@user.today_message}"
       )
     else
       render :new

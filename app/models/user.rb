@@ -40,7 +40,7 @@ class User < ActiveRecord::Base
   # end
 
   def facebook
-    @user = User.all.first
+    # @user = User.all.first
     @facebook ||= Koala::Facebook::API.new(oauth_token)
     @user_profile = @facebook.get_object("me")
     @statuses = @facebook.get_connections(@user_profile["id"], "statuses")
@@ -51,19 +51,20 @@ class User < ActiveRecord::Base
     facebook
     @today_status = @statuses[@index]
     @today_status_message = @today_status['message']
+    @today_status_time = Date.parse(@today_status['updated_time'])
     if @today_status_message.length + 32 > 160
-      @today_status_message = @today_status[0..120] + "..."
+      @today_status_message = "On #{@today_status_time}, you said: #{@today_status_message[0..120]}..." #@today_status_message[0..120] + "..."
     else
-      @today_status_message
+      @today_status_message = "On #{@today_status_time}, you said: #{@today_status_message}"
     end
   end
 
-  def today_time
-    facebook
-    @today_status = @statuses[@index]
-    @today_status_time = Date.parse(@today_status['updated_time'])
-    @today_status_time
-  end
+  # def today_time
+  #   facebook
+  #   @today_status = @statuses[@index]
+  #   @today_status_time = Date.parse(@today_status['updated_time'])
+  #   @today_status_time
+  # end
 
   # def today_status(fb_statuses)
   #   index = Random.rand(1..fb_statuses.length)

@@ -4,24 +4,19 @@ class UsersController < ApplicationController
     @user = User.find_by(session[:user_id])
     # @user = User.new
     @user.facebook
-    #binding.pry
   end
  
   def update
-    #raise params.inspect
     # @user = User.new(user_params)
     @user = User.find_by(session[:user_id])
     @user.phone = user_params[:phone]
     @user.save
-    #binding.pry
     if @user.save
       # notice "Thank you! You will receive an SMS shortly with verification instructions."
       render text: "Thank you! You will receive an SMS shortly with verification instructions."
       # redirect_to '/users/new'
       # create a link
-      # @facebook ||= Koala::Facebook::API.new(user_params[:oauth_token])
-      # binding.pry
-      
+      # @facebook ||= Koala::Facebook::API.new(user_params[:oauth_token])      
       # Instantiate a Twilio client
       client = Twilio::REST::Client.new(TWILIO_CONFIG['sid'], TWILIO_CONFIG['token'])
       
@@ -29,7 +24,7 @@ class UsersController < ApplicationController
       client.account.sms.messages.create(
         from: TWILIO_CONFIG['from'],
         to: @user.phone,
-        body: "You once said: #{@user.facebook}"#"HEY #{@user.name}! YOU ARE AWESOME!"
+        body: "On #{@user.today_time}, you said: #{@user.today_message}"#"HEY #{@user.name}! YOU ARE AWESOME!"
       )
     else
       render :new

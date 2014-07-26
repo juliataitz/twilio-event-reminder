@@ -3,8 +3,6 @@ class User < ActiveRecord::Base
 
   attr_accessor :phone
 
-  # validates :phone, presence: true, uniqueness: true
-
   def self.from_omniauth(auth)
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
       user.provider = auth.provider
@@ -40,32 +38,31 @@ class User < ActiveRecord::Base
   #   return today_status(fb_statuses)
   #   # @user.save
   # end
-    def facebook
-    # @user = User.find_by(session[:user_id])
-    # @user = User.find_by(:id)
+
+  def facebook
     @user = User.all.first
-    # fb_statuses = []
-    # fb_times = []
     @facebook ||= Koala::Facebook::API.new(oauth_token)
-    #binding.pry
     @user_profile = @facebook.get_object("me")
     @statuses = @facebook.get_connections(@user_profile["id"], "statuses")
-    binding.pry
-    @today_status = @statuses.raw_response["data"].choice
+    @index = Random.rand(0..@statuses.length)
+  end
+
+  def today_message
+    facebook
+    @today_status = @statuses[@index]
     @today_status_message = @today_status['message']
-    return @today_status_message
-    # @statuses.each do |status|
-    #   fb_statuses << status["message"]
-    #   fb_times << status["updated_time"]
-    #   # @user.messages.each do |message|
-    #   #   message.content = status["message"]
-    #   # end
-    #   # binding.pry
-    #   # @user.build_message(:content => status["message"] )
-    # end
-    # # return today_status(fb_statuses, fb_times)
-    # return today_status(fb_statuses)
-    # @user.save
+    if @today_status_message.length + 32 > 160
+      @today_status_message = @today_status[0..120] + "..."
+    else
+      @today_status_message
+    end
+  end
+
+  def today_time
+    facebook
+    @today_status = @statuses[@index]
+    @today_status_time = Date.parse(@today_status['updated_time'])
+    @today_status_time
   end
 
   # def today_status(fb_statuses)

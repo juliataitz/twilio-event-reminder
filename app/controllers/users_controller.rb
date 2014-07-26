@@ -2,7 +2,6 @@ class UsersController < ApplicationController
 
   def new
     @user = User.find_by(session[:user_id])
-    @user.message_content
   end
  
   def update

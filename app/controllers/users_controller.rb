@@ -7,6 +7,7 @@ class UsersController < ApplicationController
   def update
     @user = User.find_by(session[:user_id])
     @user.phone = params[:user][:phone]
+    @user.signups += 1
     if @user.save
       @user.send_message
       render '/users/successful_signup'

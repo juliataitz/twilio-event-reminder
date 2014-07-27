@@ -1,0 +1,35 @@
+<body>
+<div id="user-widget">
+
+  <% if current_user %>
+
+    Welcome <strong><%= current_user.first_name %></strong>!
+
+    <%= link_to "Sign out", signout_path, id: "sign_out" %>
+
+  <% else %>
+
+    <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in" %>
+
+  <% end %>
+
+</div>
+
+<h1>User Registration</h1>
+
+<%= form_for @user do |f| %>
+  <% if @user.errors.any? %>
+    <ul>
+    <% @user.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  <% end %>
+ 
+  <p><%= f.label :phone, "Phone number" %>
+  <%= f.text_field :phone, :placeholder => "Enter your phone number"%></p>
+
+  <%= f.submit "Sign up", class: ['btn', 'btn-primary']%>
+<% end %>
+</body>
+

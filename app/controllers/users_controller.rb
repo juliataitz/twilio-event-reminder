@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     @user.signups += 1
     if @user.save
       @user.store_status_messages unless @user.has_messages?
-      @user.send_message
+      @user.send_message # unless user.signups > 0
       render '/users/successful_signup'
     else
       render :new

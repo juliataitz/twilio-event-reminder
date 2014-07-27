@@ -15,15 +15,21 @@ class User < ActiveRecord::Base
 
   end
 
+  def has_messages?
+    !self.messages.empty?
+  end
 
   def message_content
-    @user = get_user_profile
-    @statuses = @facebook.get_connections(@user["id"], "statuses")
-    binding.pry
-    @todays_message = @statuses.sample
-    @content = @todays_message["message"]
-    @time = Date.parse(@todays_message['updated_time']).strftime('%m/%d/%Y') 
-    return "#{@content} ##{@time}"
+    if messages_depleted?
+      "Unfortunately, your service has expired :( Sign up to re-new it again :D!"
+    else
+      message = self.messages.sample
+      message.deployed = true
+      message.save
+
+      time = message.posted_time.strftime('%m/%d/%Y')
+      "#{message.content} ##{time}" 
+    end
   end
 
   def store_status_messages
@@ -61,6 +67,10 @@ class User < ActiveRecord::Base
     @user = get_user_profile
     @statuses = @facebook.get_connections(@user["id"], "statuses")
     @statuses.shuffle!.slice(0, 14)
+  end
+
+  def messages_depleted?
+    self.messages.first.class.where("user_id = ?", self.id).where(deployed: false).empty?
   end
 
 end

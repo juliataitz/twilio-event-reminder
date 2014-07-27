@@ -19,13 +19,19 @@ class User < ActiveRecord::Base
   def message_content
     @user = get_user_profile
     @statuses = @facebook.get_connections(@user["id"], "statuses")
+    binding.pry
     @todays_message = @statuses.sample
     @content = @todays_message["message"]
     @time = Date.parse(@todays_message['updated_time']).strftime('%m/%d/%Y') 
     return "#{@content} ##{@time}"
   end
 
-
+  def store_status_messages
+    statuses = get_user_status_messages
+    statuses.each do |status|
+      self.messages.create(content: status["message"], posted_time: status["updated_time"])
+    end
+  end
 
   def send_message
     client = Twilio::REST::Client.new(TWILIO_CONFIG['sid'], TWILIO_CONFIG['token'])
@@ -51,9 +57,10 @@ class User < ActiveRecord::Base
     @facebook.get_object("me")
   end
 
-  def get_user_messages
+  def get_user_status_messages
     @user = get_user_profile
     @statuses = @facebook.get_connections(@user["id"], "statuses")
+    @statuses.shuffle!.slice(0, 14)
   end
 
 end

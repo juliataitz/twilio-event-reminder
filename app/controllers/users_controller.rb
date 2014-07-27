@@ -5,6 +5,7 @@ class UsersController < ApplicationController
   end
  
   def update
+    binding.pry
     @user = User.find_by(session[:user_id])
     @user.phone = user_params[:phone]
     if @user.save

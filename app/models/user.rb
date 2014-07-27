@@ -36,6 +36,10 @@ class User < ActiveRecord::Base
 
   end
 
+  def valid_phone_num?
+    self.phone.gsub!(/\D/, "") == 10
+  end
+
   private
 
   def get_user_profile

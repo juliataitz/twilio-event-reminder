@@ -49,8 +49,7 @@ class User < ActiveRecord::Base
   end
 
   def self.send_all_messages
-    @users = User.all
-    @users.each do |user|
+    self.all.each do |user|
       user.send_message
     end
   end

@@ -1,7 +1,41 @@
-td{
-  background-position: 50% 50%;
-  background-repeat: no-repeat;
-  border-radius: 50%;
-  width: 100px;
-  height: 100px;
+#julia{
+  width: 200px;
+  height: 200px;
+  background-image: url('https://avatars1.githubusercontent.com/u/4854153?s=460');
+  background-size: cover;
+  display: block;
+  border-radius: 100px;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+  -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+  -moz-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+  text-align:center;
+  margin-top:0px;
+  margin-left:250px;
+  margin-bottom:10px;
+  margin-right: 10px;
 }
+
+#michael{
+  width: 200px;
+  height: 200px;
+  background-image: url('https://avatars2.githubusercontent.com/u/5080687?s=400');
+  background-size: cover;
+  display: block;
+  border-radius: 100px;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+  -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+  -moz-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+  margin-bottom:10px;
+  margin-left:  10px;
+}
+
+footer{
+  margin-top:20px;
+}
+
+
+

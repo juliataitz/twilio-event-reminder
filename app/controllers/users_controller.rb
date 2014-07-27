@@ -1,33 +1,20 @@
 class UsersController < ApplicationController
 
   def new
-    @user = User.new
+    @user = User.find_by(session[:user_id])
   end
  
-  def create
-    #raise params.inspect
-    @user = User.new(user_params)
+  def update
+    @user = User.find_by(session[:user_id])
+    @user.phone = params[:user][:phone]
+    @user.signups += 1
     if @user.save
-      render text: "Thank you! You will receive an SMS shortly with verification instructions."
-      
-      # Instantiate a Twilio client
-      client = Twilio::REST::Client.new(TWILIO_CONFIG['sid'], TWILIO_CONFIG['token'])
-      
-      # Create and send an SMS message
-      client.account.sms.messages.create(
-        from: TWILIO_CONFIG['from'],
-        to: @user.phone,
-        body: "Thanks for signing up. To verify your account, please reply HELLO to this message."
-      )
+      @user.store_status_messages unless @user.has_messages?
+      @user.send_message
+      render '/users/successful_signup'
     else
       render :new
     end
-  end
-
-  private
-
-  def user_params
-    params.require(:user).permit(:name, :email, :phone)
   end
 
 end

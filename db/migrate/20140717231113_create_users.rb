@@ -5,6 +5,10 @@ class CreateUsers < ActiveRecord::Migration
       t.string :email
       t.string :phone
       t.boolean :verified
+      t.string :uid
+      t.string :provider 
+      t.string :oauth_token 
+      t.datetime :oauth_expires_at
 
       t.timestamps
     end

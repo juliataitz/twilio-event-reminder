@@ -2,7 +2,7 @@
 
   <% if current_user %>
 
-    Welcome <strong><%= current_user.name %></strong>!
+    Welcome <strong><%= current_user.first_name %></strong>!
 
     <%= link_to "Sign out", signout_path, id: "sign_out" %>
 
@@ -25,8 +25,8 @@
     </ul>
   <% end %>
  
-  <p><%= f.label :phone %><br>
-  <%= f.text_field :phone%></p>
+  <p><%= f.label :phone, "Phone number" %>
+  <%= f.text_field :phone, :placeholder => "Enter your phone number"%></p>
 
   <%= f.submit "Sign up", class: ['btn', 'btn-primary']%>
 <% end %>

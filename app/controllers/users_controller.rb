@@ -6,19 +6,15 @@ class UsersController < ApplicationController
  
   def update
     @user = User.find_by(session[:user_id])
-    @user.phone = user_params[:phone]
+    @user.phone = params[:user][:phone]
+    @user.signups += 1
     if @user.save
+      @user.store_status_messages unless @user.has_messages?
       @user.send_message
       render '/users/successful_signup'
     else
       render :new
     end
-  end
-
-  private
-
-  def user_params
-    params.require(:user).permit(:name, :email, :phone, :oauth_token)
   end
 
 end

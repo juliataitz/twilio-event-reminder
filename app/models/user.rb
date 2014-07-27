@@ -5,22 +5,38 @@ class User < ActiveRecord::Base
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
       user.provider = auth.provider
       user.uid = auth.uid
-      user.name = auth.info.name
+      user.first_name = auth.info.first_name
+      user.last_name = auth.info.last_name
       user.oauth_token = auth.credentials.token
       user.oauth_expires_at = Time.at(auth.credentials.expires_at)
+      user.signups = 0 if user.signups.nil?
       user.save!
     end
 
   end
 
+  def has_messages?
+    !self.messages.empty?
+  end
 
   def message_content
-    @user = get_user_profile
-    @statuses = @facebook.get_connections(@user["id"], "statuses")
-    @todays_message = @statuses.sample
-    @content = @todays_message["message"]
-    @time = Date.parse(@todays_message['updated_time']).strftime('%m/%d/%Y') 
-    return "#{@content} ##{@time}"
+    if messages_depleted?
+      "Unfortunately, your service has expired :( Sign up to re-new it again :D!"
+    else
+      message = self.messages.sample
+      message.deployed = true
+      message.save
+
+      time = message.posted_time.strftime('%m/%d/%Y')
+      "#{message.content} ##{time}" 
+    end
+  end
+
+  def store_status_messages
+    statuses = get_user_status_messages
+    statuses.each do |status|
+      self.messages.create(content: status["message"], posted_time: status["updated_time"])
+    end
   end
 
   def send_message
@@ -39,11 +55,25 @@ class User < ActiveRecord::Base
     end
   end
 
+  def valid_phone_num?
+    self.phone.gsub!(/\D/, "") == 10
+  end
+
   private
 
   def get_user_profile
     @facebook ||= Koala::Facebook::API.new(oauth_token)
     @facebook.get_object("me")
+  end
+
+  def get_user_status_messages
+    @user = get_user_profile
+    @statuses = @facebook.get_connections(@user["id"], "statuses")
+    @statuses.shuffle!.slice(0, 14)
+  end
+
+  def messages_depleted?
+    self.messages.first.class.where("user_id = ?", self.id).where(deployed: false).empty?
   end
 
 end

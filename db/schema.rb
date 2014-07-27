@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140724232428) do
+ActiveRecord::Schema.define(version: 20140727043753) do
 
   create_table "messages", force: true do |t|
     t.integer  "user_id"
@@ -19,10 +19,10 @@ ActiveRecord::Schema.define(version: 20140724232428) do
     t.datetime "posted_time"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "deployed",    default: false
   end
 
   create_table "users", force: true do |t|
-    t.string   "name"
     t.string   "phone"
     t.boolean  "verified"
     t.string   "uid"
@@ -32,6 +32,8 @@ ActiveRecord::Schema.define(version: 20140724232428) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "signups"
+    t.string   "first_name"
+    t.string   "last_name"
   end
 
 end

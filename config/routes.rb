@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :users
-  resource :verifications
+  resources :verifications
 
   root to: 'users#index'
 

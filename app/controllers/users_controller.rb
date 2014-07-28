@@ -15,7 +15,7 @@ class UsersController < ApplicationController
     if @user.save
       @user.store_status_messages unless @user.has_messages?
       @user.send_message
-      render '/users/successful_signup'
+      render :successful_signup
     else
       render :new
     end

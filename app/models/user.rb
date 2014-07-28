@@ -37,7 +37,6 @@ class User < ActiveRecord::Base
     statuses.each do |status|
       self.messages.create(content: status["message"], posted_time: status["updated_time"])
     end
-    self.save
   end
 
   def send_message

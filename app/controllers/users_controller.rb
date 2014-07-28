@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   end
  
   def update
-    @user = User.find_by(session[:user_id])
+    @user = User.find_by(id: session[:user_id])
     @user.phone = params[:user][:phone]
     @user.signups += 1
     if @user.save

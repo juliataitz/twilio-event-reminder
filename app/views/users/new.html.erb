@@ -1,4 +1,4 @@
-<body>
+<div id="register-form">
 
   <% if current_user %>
 
@@ -11,6 +11,7 @@
     <%= link_to "Sign in with Facebook", "/auth/facebook", id: "sign_in" %>
 
   <% end %>
+</div>
 
 <div id="signup">
   <h2>Register here:</h2>
@@ -29,5 +30,5 @@
     <%= f.submit "Sign up", class: ['btn', 'btn-primary']%>
   <% end %>
 </div>
-</body>
+
 

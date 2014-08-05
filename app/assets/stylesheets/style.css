@@ -41,12 +41,59 @@ body{
   background-image: url('http://wallpaperpanda.com/wallpapers/5cG/9aM/5cG9aMgRi.jpg');
 }
 
+<<<<<<< HEAD
 #user-facebook{
   margin-top: 100px;
   margin-bottom: 100px;
 }
 
 #about{
+=======
+#user-widget {
+  margin-top:12em;
+}
+
+h1 {
+  color:#ffe640;
+  font-size:8em;
+  margin-top:2em;
+  text-shadow: 0 2px 1px #ffffff; 
+}
+
+h2 {
+  color:#ffe640;
+  font-size:4em;
+  margin-top:2em;
+  margin-bottom:2em;
+  text-shadow: 0 1px 1px #ffffff; 
+}
+
+#signup {
+  margin-top: 6em;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> d14ce89f8faeca6c30041ac96934b7ea636d4c91
 
 }
 

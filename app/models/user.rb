@@ -20,15 +20,15 @@ class User < ActiveRecord::Base
   end
 
   def message_content
-    if messages_depleted?
-      "Unfortunately, your service has expired :( Sign up to re-new it again :D!"
-    else
-      message = self.messages.sample
+    if !messages_depleted?
+      message = self.messages.where(deployed: false).sample
       message.deployed = true
       message.save
 
       time = message.posted_time.strftime('%m/%d/%Y')
-      "#{message.content} ##{time}" 
+      "#{message.content} ##{time}"
+    else
+      "sorry but we don't have more statuses for you, feel free to sign up again!" 
     end
   end
 
@@ -48,14 +48,19 @@ class User < ActiveRecord::Base
     )
   end
 
-  def self.send_all_messages
+  def self.send_daily_messages
     self.all.each do |user|
-      user.send_message
+      binding.pry
+      user.send_message unless user.messages_depleted?
     end
   end
 
   def valid_phone_num?
     self.phone.gsub!(/\D/, "") == 10
+  end
+
+  def messages_depleted?
+    Message.where("user_id = ?", self.id).where(deployed: false).empty?
   end
 
   private
@@ -69,10 +74,6 @@ class User < ActiveRecord::Base
     @user = get_user_profile
     @statuses = @facebook.get_connections(@user["id"], "statuses")
     @statuses.shuffle!.slice(0, 14)
-  end
-
-  def messages_depleted?
-    self.messages.first.class.where("user_id = ?", self.id).where(deployed: false).empty?
   end
 
 end

@@ -76,6 +76,7 @@ If we'd truly select randomly, we'd definitely have to keep track in our databas
 
 At some point users should have the option to cancel their subscription. This will probably be the easiest if we just use Twilio and filter for replies like "unsubscribe"
 
+instead of sending users to successful signup, we could have them rerouted to the index and log them out in the process and have a condition in our erb file
 
 
 

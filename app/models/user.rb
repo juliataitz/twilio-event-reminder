@@ -1,5 +1,6 @@
 class User < ActiveRecord::Base
   has_many :messages
+  validates :phone, format: {with: /\A[0-9]{3}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}\z/, message: "Can't be blank. Only US numbers allowed" }
 
   def self.from_omniauth(auth)
     where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
@@ -10,6 +11,7 @@ class User < ActiveRecord::Base
       user.oauth_token = auth.credentials.token
       user.oauth_expires_at = Time.at(auth.credentials.expires_at)
       user.signups = 0 if user.signups.nil?
+      user.phone = "1234567890"
       user.save!
     end
 
@@ -53,10 +55,6 @@ class User < ActiveRecord::Base
       binding.pry
       user.send_message unless user.messages_depleted?
     end
-  end
-
-  def valid_phone_num?
-    self.phone.gsub!(/\D/, "") == 10
   end
 
   def messages_depleted?
